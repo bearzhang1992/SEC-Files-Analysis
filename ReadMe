@@ -1,7 +1,10 @@
 📁 SEC-Files-Analysis
+
 This repository provides Python notebooks for downloading, extracting, and analyzing public ownership filings from the U.S. Securities and Exchange Commission (SEC), including Schedule 13D / 13G and Form 13F datasets.
 
 These filings are essential tools for investors, researchers, and analysts seeking transparency in institutional holdings and potential activist behavior in U.S. equity markets.
+
+
 
 📘 Contents
 1. SEC 13D, 13G Extractor.ipynb
@@ -70,7 +73,7 @@ Edit
 pip install -r requirements.txt
 
 
-# 🔐 Disclaimer
+🔐 Disclaimer
 This project accesses publicly available data from the U.S. Securities and Exchange Commission's EDGAR system:
 🔗 https://www.sec.gov
 
