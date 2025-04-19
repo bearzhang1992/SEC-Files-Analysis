@@ -1,49 +1,90 @@
-# SEC 13F Data Load and Clean  
+📁 SEC-Files-Analysis
+This repository provides Python notebooks for downloading, extracting, and analyzing public ownership filings from the U.S. Securities and Exchange Commission (SEC), including Schedule 13D / 13G and Form 13F datasets.
 
-- This notebook shares the analysis code for US SEC public files. 
-- SEC 13F web link: https://www.sec.gov/data-research/sec-markets-data/form-13f-data-sets?utm_source=chatgpt.com 
-- Download the newest data from the link above and run the notebook. 
+These filings are essential tools for investors, researchers, and analysts seeking transparency in institutional holdings and potential activist behavior in U.S. equity markets.
 
-- Documentation: 13F Institutional Holdings Dataset
+📘 Contents
+1. SEC 13D, 13G Extractor.ipynb
+This notebook automates the identification, download, and parsing of Schedule 13D and Schedule 13G filings from the SEC EDGAR system.
 
-This dataset is derived from the SEC Form 13F filings and contains detailed information on institutional investment holdings reported quarterly. Each row represents a single holding by an institutional filer for a specific security as of the end of the reporting period.
+Features:
 
-✅ Column Descriptions
+Automatically downloads and parses the master.idx files from EDGAR
 
-Column Name	Type	Description
-FILINGMANAGER_NAME	str	The name of the institutional investment manager who submitted the 13F filing.
-NAMEOFISSUER	str	The name of the issuer of the security (i.e., the company whose stock is being reported).
-CUSIP	str	The 9-digit CUSIP identifier that uniquely identifies the security.
-DATE	str	The end date of the reporting period (e.g., 31-DEC-2024). This represents the quarter-end date of the filing.
-NUMBER_OF_SHARES	int	The number of shares held by the filing manager for the reported security.
-NOTIONAL_VALUE	float	The market value of the holding in USD. As of 2023, this value is reported in whole dollars (not in thousands).
-SUBMISSIONTYPE	str	The type of SEC submission:
-- 13F-HR: Initial quarterly holdings report
-- 13F-HR/A: Amended holdings report
-- 13F-NT: Notice report (no holdings disclosed).
-CIK	str	Central Index Key – a unique identifier assigned by the SEC to the institutional filer. Useful for tracking a manager across filings.
-INVESTMENTDISCRETION	str	Indicates who holds discretion over investment decisions:
-- SOLE: Sole discretion
-- SHARED: Shared discretion
-- NONE: No discretion (e.g., managed by another entity).
-OTHERMANAGER	str	The sequence number of other managers involved in managing the same holding. 0 or blank means no other manager is involved.
-ACCESSION_NUMBER	str	Unique identifier assigned by the SEC for each filing. Can be used to locate the original filing on the SEC EDGAR website.
+Filters for SC 13D, SC 13D/A, SC 13G, and SC 13G/A filings
 
-📌 Suggested Use Cases
-Use FILINGMANAGER_NAME and DATE to track quarterly holdings by institution.
+Downloads and parses each filing’s XML content
 
-Use NAMEOFISSUER and DATE to identify the largest shareholders of a particular security.
+Extracts:
 
-Use CIK to track filings across years or merge with other SEC datasets.
+Issuer and filer CIK, name, and ownership details
 
-Combine with external data (e.g., shares outstanding) to estimate ownership percentage.
+Voting power and percentage of class
 
-Use INVESTMENTDISCRETION to distinguish between active and passive positions.
+Narrative fields like funding source, transaction purpose, and certification statements
 
-📎 Data Source
-This dataset is constructed from the SEC’s Form 13F Quarterly Data Files, based on tab-separated values (TSV) provided in structured format.
- 
- 
- 
- 
- 
+Returns structured results in a pandas DataFrame for analysis
+
+Ideal for analyzing activist campaigns, major ownership changes, or strategic block holders.
+
+2. SEC 13F Load.ipynb
+This notebook loads the Form 13F Institutional Holdings datasets made available by the SEC in tab-separated format.
+
+Features:
+
+Supports official structured 13F flat files (TSV)
+
+Parses and cleans the institutional holdings dataset
+
+Extracts:
+
+Issuer, CUSIP, and manager information
+
+Share count and market value
+
+Investment discretion types and other manager links
+
+Merges metadata from the submission, coverpage, and infotable files
+
+Ideal for analyzing portfolio composition, trends across quarters, or identifying top shareholders of any public company.
+
+🗂 Sample Use Cases
+Identify the top institutional holders of a given stock
+
+Monitor activist campaigns (13D filers) vs. passive investors (13G filers)
+
+Detect shifts in investment discretion or voting power
+
+Track portfolio changes of hedge funds, pension funds, and asset managers
+
+🛠 Requirements
+Python 3.8+
+
+pandas, requests, xml, tqdm, lxml, beautifulsoup4 (for optional extensions)
+
+You can install required packages via:
+
+bash
+Copy
+Edit
+pip install -r requirements.txt
+
+
+# 🔐 Disclaimer
+This project accesses publicly available data from the U.S. Securities and Exchange Commission's EDGAR system:
+🔗 https://www.sec.gov
+
+By using this project, you agree to:
+
+Respect the SEC’s fair use and access policies.
+
+Include a valid User-Agent header with your name and email in all programmatic requests.
+
+Avoid high-frequency or parallel scraping that could overload the SEC’s infrastructure.
+
+The extracted data is for research and educational purposes only. It is not intended for trading, investment advice, or commercial redistribution.
+
+We do not guarantee the completeness or accuracy of filings, which may contain errors introduced by filers or by parsing limitations.
+
+🧾 License
+This repository is released under the MIT License. See LICENSE file for more information.
